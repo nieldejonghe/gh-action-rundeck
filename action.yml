@@ -1,0 +1,40 @@
+name: 'Execute Rundeck job'
+description: 'Execute Rundeck job and get output'
+inputs:
+  rundeck-url:
+    description: 'Rundeck URL'
+    required: true
+  rundeck-token:
+    description: 'Rundeck Auth Token'
+    required: true
+  job-id:
+    description: 'Rundeck job ID'
+    required: true
+  verify-ssl:
+    description: 'Verify SSL'
+    default: 'true'
+    required: false
+  rundeck-job-options:
+    description: 'Rundeck job options in json format'
+    required: false
+  wait:
+    description: 'Wait Rundeck job finish and print output'
+    default: 'true'
+    required: false
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - execute-rundeck-job
+    - --rundeck-url
+    - ${{ inputs.rundeck-url }}
+    - --rundeck-token
+    - ${{ inputs.rundeck-token }}
+    - --job-id
+    - ${{ inputs.job-id }}
+    - --verify-ssl
+    - ${{ inputs.verify-ssl }}
+    - --options
+    - ${{ inputs.rundeck-job-options }}
+    - --wait
+    - ${{ inputs.wait }}
