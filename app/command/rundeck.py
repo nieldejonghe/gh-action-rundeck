@@ -22,7 +22,7 @@ def cli():
               required=True)
 @click.option("--api-version",
               help="Rundeck API version.",
-              default="31")
+              default="44")
 @click.option("--verify-ssl",
               help="Verify SSL.",
               default="true")
@@ -34,7 +34,7 @@ def cli():
 @click.option("--wait",
               help="Wait Rundeck job finish and print output.")
 def execute_rundeck_job(rundeck_url, rundeck_token, api_version, verify_ssl, job_id, options=None, wait=None):
-    """Exetute Rundeck job and get output."""
+    """Execute Rundeck job and get output."""
 
     if options:
         options = json.loads(options)
@@ -48,6 +48,8 @@ def execute_rundeck_job(rundeck_url, rundeck_token, api_version, verify_ssl, job
         wait = 'true'
 
     if wait == 'true':
+        execution_state = rundeck.execution_state(run['id'])
+        print(execution_state)
         while rundeck.execution_state(run['id'])['executionState'] == 'RUNNING':
             print("Rundeck job in progress: %d ..." % run['id'])
             time.sleep(5)
@@ -57,4 +59,6 @@ def execute_rundeck_job(rundeck_url, rundeck_token, api_version, verify_ssl, job
 
         if rundeck.execution_state(run['id'])['executionState'] != 'SUCCEEDED':
             exit(1)
+
+
 
