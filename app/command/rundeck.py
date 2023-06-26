@@ -7,11 +7,9 @@ import json
 import time
 from pyrundeck import Rundeck
 
-
 @click.group()
 def cli():
     pass
-
 
 @cli.command()
 @click.option("--rundeck-url",
@@ -48,8 +46,6 @@ def execute_rundeck_job(rundeck_url, rundeck_token, api_version, verify_ssl, job
         wait = 'true'
 
     if wait == 'true':
-        execution_state = rundeck.execution_state(run['id'])
-        print(execution_state)
         while rundeck.execution_state(run['id'])['executionState'] == 'RUNNING':
             print("Rundeck job in progress: %d ..." % run['id'])
             time.sleep(5)
@@ -59,6 +55,3 @@ def execute_rundeck_job(rundeck_url, rundeck_token, api_version, verify_ssl, job
 
         if rundeck.execution_state(run['id'])['executionState'] != 'SUCCEEDED':
             exit(1)
-
-
-
