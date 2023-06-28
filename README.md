@@ -11,7 +11,7 @@ Example usage:
         env: 
             VERSION: ${{ needs.publish.outputs.VERSION }}
             IMAGE_TAG: ${{ needs.publish.outputs.IMAGE_TAG }}
-        uses: nieldejonghe/gh-action-rundeck@main
+        uses: <ghreponame>/gh-action-rundeck@main
         with: 
           rundeck-url: <rundeck endpoint>
           rundeck-token: <rundeck api token>
